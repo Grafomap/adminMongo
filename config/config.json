@@ -1,1 +1,16 @@
-{}
+{
+  "connections": {
+    "localhost": {
+      "connection_string": "mongodb://localhost:27017",
+      "connection_options": {}
+    },
+    "grafomap-beta": {
+      "connection_string": "mongodb://grafomap-beta:EKJegVakwinVad3@ds149905.mlab.com:49905/grafomap-beta",
+      "connection_options": {}
+    },
+    "grafomap": {
+      "connection_string": "mongodb://grafomap:mojEbNavyomnen7@ds235778.mlab.com:35778/grafomap",
+      "connection_options": {}
+    }
+  }
+}

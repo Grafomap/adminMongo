@@ -1,3 +1,6 @@
+Used for Grafomap database access. All connections are defined in config/config.json
+
+
 # adminMongo
 
 ![npm downloads badge](https://img.shields.io/npm/dm/admin-mongo.svg "npm download badge")
