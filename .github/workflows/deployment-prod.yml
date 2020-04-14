@@ -1,0 +1,49 @@
+name: Deployment to am.grafomap.com
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  build:
+    if: contains(github.event.head_commit.message, 'skip ci') == false
+    name: Build, push and deploy to production
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout branch
+      uses: actions/checkout@v2
+      with:
+        ref: master
+
+    - name: Login to DockerHub
+      uses: azure/docker-login@v1
+      with:
+        username: grafomap
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build Docker container and push to DockerHub
+      run: |
+        TAG=$(echo $GITHUB_SHA | head -c7)
+        docker build -t grafomap/adminmongo:${TAG} .
+        docker push grafomap/adminmongo:${TAG}
+        sed -i 's|<IMAGE>|grafomap/adminmongo:'${TAG}'|' config/k8s-prod.yml
+
+    - name: Save DigitalOcean .kubeconfig
+      uses: digitalocean/action-doctl@master
+      env:
+        DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      with:
+        args: kubernetes cluster kubeconfig show k8s-grafomap > .kubeconfig
+
+    - name: Apply resource manifests to DigitalOcean Kubernetes
+      uses: docker://lachlanevenson/k8s-kubectl
+      with:
+        args: --kubeconfig=.kubeconfig apply -f config/k8s-prod.yml -f config/k8s-ingress.yml
+
+    - name: Verify deployment
+      uses: docker://lachlanevenson/k8s-kubectl
+      with:
+        args: --kubeconfig=.kubeconfig rollout status deployment/adminmongo

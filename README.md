@@ -1,4 +1,6 @@
-Used for Grafomap database access. All connections are defined in config/config.json
+![](https://github.com/grafomap/adminMongo/workflows/Deployment%20to%20am.grafomap.com/badge.svg?branch=master)
+
+Forked project used for Grafomap database access. All connections are defined in [config/config.json](./config/config.json).
 
 
 # adminMongo
