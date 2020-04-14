@@ -1,7 +1,24 @@
-![](https://github.com/grafomap/adminMongo/workflows/Deployment%20to%20am.grafomap.com/badge.svg?branch=master)
+# adminMongo ![](https://github.com/grafomap/adminMongo/workflows/Deployment%20to%20am.grafomap.com/badge.svg?branch=master)
 
 Forked project used for Grafomap database access. All connections are defined in [config/config.json](./config/config.json).
 
+## Local development
+- Start: `npm start`, open http://localhost:1234
+- Stop: `npm stop` after exiting with Ctrl+C
+- Exec into container: `npm run it`
+
+## Deployment
+Every commit (except for those with `skip ci` in commit message) to master branch automatically builds a [Docker image](./Dockerfile), pushes to [DockerHub](https://hub.docker.com/repository/docker/grafomap/adminmongo) and deploys to [DigitalOcean Kubernetes](https://cloud.digitalocean.com/kubernetes/clusters) via [GitHub Actions workflow](./.github/workflows/deployment-prod.yml).
+
+## Monitoring
+Required: [kubectl](https://github.com/Grafomap/grafomap/blob/master/scripts/local-setup.md#kubectl-doctl-helm-tiller)
+
+- Status: `kubectl describe pod|svc adminmongo-xxxxxxxxxx-xxxxx`
+- Logs: `kubectl logs -f adminmongo-xxxxxxxxxx-xxxxx`
+- Restart pod: `kubectl delete pod adminmongo-xxxxxxxxxx-xxxxx`
+- Ssh into running pod: `kubectl exec -it adminmongo-xxxxxxxxxx-xxxxx -- sh`
+
+## Original README below:
 
 # adminMongo
 
