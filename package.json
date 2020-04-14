@@ -13,7 +13,9 @@
     "url": "https://github.com/mrvautin/adminmongo/issues"
   },
   "scripts": {
-    "start": "node app.js",
+    "prestart": "docker build -t am:dev . ",
+    "start": "docker run -d -p 1234:1234 --name adminmongo --rm am:dev",
+    "stop": "docker stop adminmongo",
     "test": "find ./tests -name '*.js' | xargs mocha -R spec -t 5000",
     "packageOsx": "electron-packager ./ adminMongo --out=releases/ --platform=darwin --arch=x64 --prune --overwrite --ignore=releases/* --icon=public/logo.icns",
     "packageWin32": "electron-packager ./ adminMongo --out=releases/ --platform=win32 --arch=ia32 --prune --overwrite --ignore=releases/* --icon=public/logo.ico",
