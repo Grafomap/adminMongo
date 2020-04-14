@@ -13,8 +13,8 @@
     "url": "https://github.com/mrvautin/adminmongo/issues"
   },
   "scripts": {
-    "prestart": "docker build -t am:dev . ",
-    "start": "docker run -p 1234:1234 --name adminmongo --rm am:dev",
+    "prestart": "docker build -t am:dev .",
+    "start": "docker run --rm -p 1234:1234 --name adminmongo am:dev",
     "stop": "docker stop adminmongo",
     "it": "docker exec -it adminmongo sh",
     "test": "find ./tests -name '*.js' | xargs mocha -R spec -t 5000",
