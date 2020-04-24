@@ -42,11 +42,12 @@ spec:
         ports:
         - containerPort: 1234
         resources:
-          limits:
-            cpu: 200m
           requests:
-            cpu: 100m
-
+            cpu: 10m
+            memory: "60Mi"
+          limits:
+            cpu: 20m
+            memory: "90Mi"
       restartPolicy: Always
 
       # Required for private images
